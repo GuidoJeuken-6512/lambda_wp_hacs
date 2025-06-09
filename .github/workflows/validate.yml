@@ -26,6 +26,8 @@ jobs:
         uses: "hacs/action@main"
         with:
           category: "integration"
+      - name: Run hassfest
         run: |
+          python -m pip install hassfest
           hassfest validate
           hassfest translation 
