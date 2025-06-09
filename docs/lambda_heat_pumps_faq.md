@@ -153,3 +153,45 @@ Contributions are welcome! You can contribute by submitting pull requests to the
 
 ### Is the integration compatible with Home Assistant Energy Dashboard?
 The integration provides power consumption sensors that can be used in the Energy Dashboard. Look for sensors with names like `sensor.[name]_hpX_fi_power_consumption` which represent the power consumption of individual heat pumps.
+
+## HACS Integration
+
+### How do I publish my integration to HACS?
+Publishing to HACS requires several steps:
+
+1. **Prepare your repository**:
+   - Ensure your GitHub repository is public
+   - Follow the [HACS integration requirements](https://hacs.xyz/docs/publish/integration)
+   - Include all required files (README.md, info.md, hacs.json)
+
+2. **Validate your integration**:
+   - Use the [HACS Validation GitHub Action](https://github.com/hacs/action)
+   - Fix any issues reported by the validator
+
+3. **Submit for inclusion**:
+   - Fork the [HACS default repository](https://github.com/hacs/default)
+   - Add your integration to the `integration` file
+   - Create a pull request with proper documentation
+
+See the detailed guide in our [developer documentation](/home/guido/Dokumente/dockers/config/docs/lambda_heat_pumps_developer_guide.md) for step-by-step instructions.
+
+### What requirements does HACS have for integrations?
+HACS has specific requirements including:
+
+- Repository structure following Home Assistant custom integration standards
+- Required files: README.md, info.md (or README used as info), hacs.json
+- Proper version handling (preferably using releases/tags)
+- Documentation on installation and configuration
+- Working code that follows Home Assistant best practices
+- Validation using HACS validation tools
+
+### Can users install my integration directly from HACS?
+Once approved and included in the HACS default repository, users can install your integration directly from the HACS interface. They simply need to:
+
+1. Open HACS in their Home Assistant instance
+2. Go to "Integrations"
+3. Click the "+" button
+4. Search for "Lambda Heat Pumps"
+5. Click "Download"
+
+For installation before official inclusion, users can add your repository as a custom repository in HACS.
