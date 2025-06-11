@@ -12,6 +12,7 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.exceptions import ConfigEntryNotReady
+import voluptuous as vol
 
 from .const import DOMAIN, DEBUG_PREFIX
 from .coordinator import LambdaDataUpdateCoordinator
@@ -32,6 +33,13 @@ PLATFORMS = [
     Platform.SENSOR,
     Platform.CLIMATE,
 ]
+
+# Konfigurationsschema für die Integration
+CONFIG_SCHEMA = vol.Schema({
+    DOMAIN: vol.Schema({
+        vol.Optional("debug", default=False): bool,
+    })
+})
 
 LAMBDA_WP_CONFIG_TEMPLATE = """# Lambda WP configuration
 # This file is used by Lambda WP Integration to define the configuration of Lambda WP.

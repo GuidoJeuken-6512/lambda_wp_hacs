@@ -8,5 +8,6 @@
   "requirements": ["pymodbus==3.6.1"],
   "dependencies": [],
   "after_dependencies": ["modbus"],
-  "codeowners": ["@GuidoJeuken-6512"]
+  "codeowners": ["@GuidoJeuken-6512"],
+  "iot_class": "local_push"
 }
