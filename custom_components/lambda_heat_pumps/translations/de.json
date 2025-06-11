@@ -51,22 +51,5 @@
         }
       }
     }
-  },
-  "climate": {
-    "hot_water": "Warmwasser",
-    "hot_water_numbered": "Warmwasser {number}",
-    "heating_circuit": "Heizkreis",
-    "heating_circuit_numbered": "Heizkreis {number}",
-    "current_temperature": "Aktuelle Temperatur",
-    "target_temperature": "Soll-Temperatur",
-    "min_temp": "Minimale Temperatur",
-    "max_temp": "Maximale Temperatur",
-    "set_temperature": "Temperatur einstellen",
-    "hvac_mode_heat": "Heizen",
-    "hvac_modes": "Modi",
-    "error_set_temp_failed": "Setzen der Zieltemperatur fehlgeschlagen."
-  },
-  "room_thermostat_control": "Raumthermostat-Steuerung",
-  "room_thermostat_control_tooltip": "Hiermit wird die Raumthermostat-Steuerung für die Lambda Wärmepumpe aktiviert. Bitte ggf. in der Hilfe nachsehen.",
-  "use_legacy_modbus_names": "Alte Modbus-Namen verwenden"
+  }
 }

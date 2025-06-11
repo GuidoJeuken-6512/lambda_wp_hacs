@@ -51,22 +51,5 @@
         }
       }
     }
-  },
-  "climate": {
-    "hot_water": "Hot Water",
-    "hot_water_numbered": "Hot Water {number}",
-    "heating_circuit": "Heating Circuit",
-    "heating_circuit_numbered": "Heating Circuit {number}",
-    "current_temperature": "Current Temperature",
-    "target_temperature": "Target Temperature",
-    "min_temp": "Minimum Temperature",
-    "max_temp": "Maximum Temperature",
-    "set_temperature": "Set Temperature",
-    "hvac_mode_heat": "Heat",
-    "hvac_modes": "Modes",
-    "error_set_temp_failed": "Failed to set target temperature."
-  },
-  "room_thermostat_control": "Room Thermostat Control",
-  "room_thermostat_control_tooltip": "This enables room thermostat control for the Lambda heat pump. Please refer to the help if needed.",
-  "use_legacy_modbus_names": "Use legacy Modbus names"
+  }
 }
