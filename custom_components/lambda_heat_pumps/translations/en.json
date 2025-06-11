@@ -28,28 +28,24 @@
           "room_temperature_entity_4": "Room Temperature Sensor for Heating Circuit 4",
           "room_temperature_entity_5": "Room Temperature Sensor for Heating Circuit 5"
         }
+      },
+      "options": {
+        "title": "Lambda WP Options",
+        "data": {
+          "hot_water_min_temp": "Hot Water Min Temperature",
+          "hot_water_max_temp": "Hot Water Max Temperature",
+          "heating_circuit_min_temp": "Heating Circuit Min Temperature",
+          "heating_circuit_max_temp": "Heating Circuit Max Temperature",
+          "update_interval": "Update Interval (seconds)",
+          "firmware_version": "Firmware Versions",
+          "room_thermostat_control": "Room Thermostat Control"
+        }
       }
     },
     "error": {
       "unknown": "Unknown error occurred.",
       "cannot_connect": "Could not connect to the device.",
       "no_temp_sensors": "No temperature sensors found. Please set up a temperature sensor first."
-    },
-    "options": {
-      "step": {
-        "init": {
-          "title": "Lambda WP Options",
-          "data": {
-            "hot_water_min_temp": "Hot Water Min Temperature",
-            "hot_water_max_temp": "Hot Water Max Temperature",
-            "heating_circuit_min_temp": "Heating Circuit Min Temperature",
-            "heating_circuit_max_temp": "Heating Circuit Max Temperature",
-            "update_interval": "Update Interval (seconds)",
-            "firmware_version": "Firmware Versions",
-            "room_thermostat_control": "Room Thermostat Control"
-          }
-        }
-      }
     }
   }
 }
