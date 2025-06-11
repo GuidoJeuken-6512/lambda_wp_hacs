@@ -8,3 +8,4 @@ pytest-mock
 flake8>=6.1.0
 pylint==3.3.7
 pylint-per-file-ignores==1.4.0
+homeassistant-cli>=0.9.3
