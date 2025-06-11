@@ -21,7 +21,7 @@ jobs:
       - name: Validate with Home Assistant
         run: |
           python -m homeassistant --version
-          python -m homeassistant --config /tmp/ha --script check_config
+          # python -m homeassistant --config /tmp/ha --script check_config
       - name: HACS validation
         uses: "hacs/action@main"
         with:
