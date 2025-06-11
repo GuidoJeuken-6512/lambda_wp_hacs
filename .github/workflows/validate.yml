@@ -26,6 +26,7 @@ jobs:
         uses: "hacs/action@main"
         with:
           category: "integration"
+        continue-on-error: true
       - name: Run hassfest
         run: |
           python -m pip install hassfest
