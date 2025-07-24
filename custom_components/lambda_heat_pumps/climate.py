@@ -41,7 +41,8 @@ class LambdaClimateEntity(CoordinatorEntity, ClimateEntity):
         self._template = CLIMATE_TEMPLATES[climate_type]
 
         # Hole den Legacy-Modbus-Namen-Switch aus der Config
-        use_legacy_modbus_names = entry.data.get("use_legacy_modbus_names", False)
+        # In Version 1.2.0 wurde use_legacy_modbus_names entfernt - immer True
+        use_legacy_modbus_names = True
         name_prefix = entry.data.get("name", "").lower().replace(" ", "")
 
         # Verwende die Werte aus der CLIMATE_TEMPLATES Konfiguration

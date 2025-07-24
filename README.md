@@ -2,7 +2,7 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 [![maintainer](https://img.shields.io/badge/maintainer-%40GuidoJeuken--6512-blue.svg)](https://github.com/GuidoJeuken-6512)
-[![version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/GuidoJeuken-6512/lambda_wp_hacs/releases)
+[![version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/GuidoJeuken-6512/lambda_wp_hacs/releases)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 **Deutsche Version siehe unten / German version see below**
@@ -31,6 +31,8 @@
 - **Automatic YAML config for advanced options**
 - **Debug logging and troubleshooting tools**
 - **Counters for heat pump cycling by operating mode**
+- **Unified entity naming convention**
+- **Automatic entity migration with conflict resolution**
 
 ## ⚙️ Initial Configuration
 

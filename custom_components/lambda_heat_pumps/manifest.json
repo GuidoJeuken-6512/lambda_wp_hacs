@@ -7,5 +7,5 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/GuidoJeuken-6512/lambda_wp_hacs/issues",
   "requirements": ["pymodbus>=3.6.0"],
-  "version": "1.1.0"
+  "version": "1.2.0"
 }

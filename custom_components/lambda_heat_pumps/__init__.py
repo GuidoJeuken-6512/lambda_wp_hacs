@@ -24,7 +24,7 @@ from .automations import setup_cycling_automations, cleanup_cycling_automations
 
 _LOGGER = logging.getLogger(__name__)
 SCAN_INTERVAL = timedelta(seconds=30)
-VERSION = "1.1.0"  # Updated version for cycling sensors feature
+VERSION = "1.2.0"  # Updated version for unified entity naming
 
 # Diese Konstante teilt Home Assistant mit, dass die Integration
 # Übersetzungen hat
@@ -42,7 +42,6 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-
 def setup_debug_logging(config: ConfigType) -> None:
     """Set up debug logging for the integration."""
     if config.get("debug", False):
@@ -53,6 +52,33 @@ def setup_debug_logging(config: ConfigType) -> None:
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the Lambda integration."""
     setup_debug_logging(config)
+    return True
+
+
+async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Handle migration of config entry to a new version."""
+    _LOGGER.info("Starting config entry migration to version 2 (legacy naming)")
+    
+    if entry.version < 2:
+        try:
+            from .utils import migrate_to_legacy_names, cleanup_duplicate_entities
+            migration_result = await migrate_to_legacy_names(hass, entry)
+            if migration_result:
+                _LOGGER.info("✅ Entity migration completed successfully")
+            else:
+                _LOGGER.info("ℹ️ No entities needed migration")
+            
+            # Clean up any remaining duplicates
+            cleanup_result = await cleanup_duplicate_entities(hass, entry)
+            if cleanup_result:
+                _LOGGER.info("✅ Duplicate cleanup completed")
+        except Exception as ex:
+            _LOGGER.error("❌ Entity migration failed: %s", ex)
+        
+        # Update config entry version
+        hass.config_entries.async_update_entry(entry, version=2)
+        _LOGGER.info("✅ Config entry migrated to version 2 (legacy naming)")
+    
     return True
 
 
@@ -89,6 +115,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         generate_base_addresses('sol', num_sol),
         generate_base_addresses('hc', num_hc)
     )
+
     # Create coordinator
     coordinator = LambdaDataUpdateCoordinator(hass, entry)
     try:

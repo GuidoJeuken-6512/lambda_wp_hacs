@@ -84,8 +84,8 @@ async def async_setup_entry(
     num_sol = entry.data.get("num_sol", 0)
     num_hc = entry.data.get("num_hc", 1)
 
-    # Hole den Legacy-Modbus-Namen-Switch aus der Config
-    use_legacy_modbus_names = entry.data.get("use_legacy_modbus_names", False)
+    # In Version 1.2.0 wurde use_legacy_modbus_names entfernt - immer True
+    use_legacy_modbus_names = True
     name_prefix = entry.data.get("name", "").lower().replace(" ", "")
 
     # Create sensors for each device type using a generic loop
@@ -806,9 +806,8 @@ class LambdaSensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self) -> str:
         """Return the name of the sensor."""
-        use_legacy_modbus_names = self.coordinator.entry.data.get(
-            "use_legacy_modbus_names", False
-        )
+        # In Version 1.2.0 wurde use_legacy_modbus_names entfernt - immer True
+        use_legacy_modbus_names = True
         if (
             use_legacy_modbus_names
             and hasattr(self.coordinator, "sensor_overrides")

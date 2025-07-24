@@ -83,7 +83,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
 class LambdaConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Lambda WP."""
 
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self) -> None:
         """Initialize the config flow."""
@@ -268,10 +268,7 @@ class LambdaConfigFlow(ConfigFlow, domain=DOMAIN):
                                 mode=selector.SelectSelectorMode.DROPDOWN,
                             )
                         ),
-                        vol.Optional(
-                            "use_legacy_modbus_names",
-                            default=0,
-                        ): selector.BooleanSelector(),
+                        # use_legacy_modbus_names removed in version 1.2.0 - always True
                     }
                 ),
                 errors=errors,
@@ -516,10 +513,7 @@ class LambdaConfigFlow(ConfigFlow, domain=DOMAIN):
                             mode=selector.SelectSelectorMode.DROPDOWN,
                         )
                     ),
-                    vol.Optional(
-                        "use_legacy_modbus_names",
-                        default=0,
-                    ): selector.BooleanSelector(),
+                    # use_legacy_modbus_names removed in version 1.2.0 - always True
                 }
             ),
             errors=errors,

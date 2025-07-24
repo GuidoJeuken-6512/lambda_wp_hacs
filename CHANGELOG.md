@@ -2,6 +2,28 @@
 
 **Deutsche Version siehe unten / German version see below**
 
+## [1.2.0] - 2024-12-19
+
+### Added
+- **Unified Entity Naming**: All entities now use legacy naming convention with name_prefix (e.g., `eu08l_ambient_temperature`)
+- **Automatic Migration**: Existing entities are automatically migrated to preserve history
+- **Version 2 Config Entry**: New config entry version to trigger migration
+- **Migration Handler**: Proper `async_migrate_entry` function for Home Assistant migration system
+- **Duplicate Cleanup**: Automatic cleanup of conflicting entities during migration
+
+### Changed
+- **Removed Legacy Option**: `use_legacy_modbus_names` option removed from config flow
+- **Always Legacy Mode**: All entities now use the legacy naming convention by default
+- **Config Flow Version**: Increased to version 2
+- **Entity Registry Management**: Improved handling of entity conflicts and duplicates
+
+### Fixed
+- **Duplicate Entities**: Prevents creation of duplicate entities with different naming schemes
+- **Multi-Installation Support**: Ensures unique entity IDs across multiple Lambda installations
+- **Migration Conflicts**: Resolves conflicts when multiple entities share the same unique_id
+- **Frontend Display**: Eliminates "unavailable" entities after migration
+- **Entity History**: Preserves sensor history during migration process
+
 ## [1.1.0] - 2024-12-19
 
 ### Added
@@ -47,6 +69,22 @@
 ---
 
 # Changelog (Deutsch)
+
+## [1.2.0] - 2024-12-19
+
+### Added
+- **Einheitliche Entity-Namen**: Alle Entities verwenden jetzt die Legacy-Namenskonvention mit name_prefix (z.B. `eu08l_ambient_temperature`)
+- **Automatische Migration**: Bestehende Entities werden automatisch migriert, um die Historie zu erhalten
+- **Version 2 Config Entry**: Neue Config Entry Version zur Migration
+
+### Changed
+- **Legacy-Option entfernt**: `use_legacy_modbus_names` Option aus dem Config Flow entfernt
+- **Immer Legacy-Modus**: Alle Entities verwenden jetzt standardmäßig die Legacy-Namenskonvention
+- **Config Flow Version**: Erhöht auf Version 2
+
+### Fixed
+- **Doppelte Entities**: Verhindert die Erstellung doppelter Entities mit verschiedenen Namensschemata
+- **Multi-Installation Support**: Stellt sicher, dass Entity-IDs über mehrere Lambda-Installationen hinweg eindeutig sind
 
 ## [1.1.0] - 2024-12-19
 

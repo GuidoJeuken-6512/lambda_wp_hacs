@@ -510,3 +510,140 @@ async def increment_cycling_counter(
         await async_update_entity(hass, entity_id)
     except Exception as e:
         _LOGGER.debug(f"Could not force update for {entity_id}: {e}")
+
+
+# --- Entity Migration Functions ---
+
+async def migrate_to_legacy_names(hass: HomeAssistant, entry) -> bool:
+    """Migrate entities to use legacy naming convention (with name_prefix).
+    
+    This function migrates all Lambda entities to use the legacy naming convention
+    where unique_id always includes the name_prefix (e.g., eu08l_ambient_temperature).
+    
+    Args:
+        hass: HomeAssistant instance
+        entry: ConfigEntry for the Lambda integration
+        
+    Returns:
+        bool: True if migration was performed, False if no migration needed
+    """
+    entity_registry = async_get_entity_registry(hass)
+    name_prefix = entry.data.get("name", "eu08l").lower().replace(" ", "")
+    migrated_count = 0
+    removed_count = 0
+    
+    _LOGGER.info(f"Starting entity migration to legacy naming for {name_prefix}")
+    
+    # Get all Lambda entities
+    lambda_entities = [
+        entity for entity in entity_registry.entities.values()
+        if entity.config_entry_id == entry.entry_id
+    ]
+    
+    # Track which entities we've migrated to avoid duplicates
+    migrated_unique_ids = set()
+    
+    for entity in lambda_entities:
+        current_unique_id = entity.unique_id
+        
+        # Skip if already using legacy naming
+        if current_unique_id.startswith(f"{name_prefix}_"):
+            continue
+            
+        # Generate new unique_id with legacy naming
+        if "_" in current_unique_id:
+            # Extract sensor_id from current unique_id
+            parts = current_unique_id.split("_", 1)
+            if len(parts) == 2:
+                sensor_id = parts[1]
+                new_unique_id = f"{name_prefix}_{sensor_id}"
+            else:
+                # Fallback: just prepend name_prefix
+                new_unique_id = f"{name_prefix}_{current_unique_id}"
+        else:
+            # Simple case: just prepend name_prefix
+            new_unique_id = f"{name_prefix}_{current_unique_id}"
+        
+        # Check if new unique_id already exists (conflict)
+        if new_unique_id in migrated_unique_ids:
+            # Remove the conflicting entity instead of migrating
+            try:
+                entity_registry.async_remove(entity.entity_id)
+                removed_count += 1
+                _LOGGER.info(f"Removed conflicting entity {entity.entity_id} (duplicate unique_id: {new_unique_id})")
+            except Exception as e:
+                _LOGGER.error(f"Failed to remove conflicting entity {entity.entity_id}: {e}")
+            continue
+        
+        # Update entity in registry
+        try:
+            entity_registry.async_update_entity(
+                entity.entity_id,
+                new_unique_id=new_unique_id
+            )
+            migrated_unique_ids.add(new_unique_id)
+            migrated_count += 1
+            _LOGGER.info(f"Migrated {entity.entity_id}: {current_unique_id} → {new_unique_id}")
+        except Exception as e:
+            _LOGGER.error(f"Failed to migrate {entity.entity_id}: {e}")
+    
+    if migrated_count > 0 or removed_count > 0:
+        _LOGGER.info(f"✅ Entity migration completed: {migrated_count} entities migrated, {removed_count} conflicts removed")
+        return True
+    else:
+        _LOGGER.info("ℹ️ No entities needed migration")
+        return False
+
+
+async def cleanup_duplicate_entities(hass: HomeAssistant, entry) -> bool:
+    """Clean up duplicate entities that were created during migration.
+    
+    This function removes entities that have conflicting unique_ids after migration.
+    
+    Args:
+        hass: HomeAssistant instance
+        entry: ConfigEntry for the Lambda integration
+        
+    Returns:
+        bool: True if cleanup was performed, False if no cleanup needed
+    """
+    entity_registry = async_get_entity_registry(hass)
+    name_prefix = entry.data.get("name", "eu08l").lower().replace(" ", "")
+    removed_count = 0
+    
+    _LOGGER.info(f"Starting cleanup of duplicate entities for {name_prefix}")
+    
+    # Get all Lambda entities
+    lambda_entities = [
+        entity for entity in entity_registry.entities.values()
+        if entity.config_entry_id == entry.entry_id
+    ]
+    
+    # Find entities with duplicate unique_ids
+    unique_id_count = {}
+    for entity in lambda_entities:
+        unique_id = entity.unique_id
+        if unique_id not in unique_id_count:
+            unique_id_count[unique_id] = []
+        unique_id_count[unique_id].append(entity)
+    
+    # Remove duplicates (keep the first one, remove the rest)
+    for unique_id, entities in unique_id_count.items():
+        if len(entities) > 1:
+            # Sort by entity_id to ensure consistent removal
+            entities.sort(key=lambda e: e.entity_id)
+            # Keep the first entity, remove the rest
+            for entity in entities[1:]:
+                try:
+                    entity_registry.async_remove(entity.entity_id)
+                    removed_count += 1
+                    _LOGGER.info(f"Removed duplicate entity {entity.entity_id} (unique_id: {unique_id})")
+                except Exception as e:
+                    _LOGGER.error(f"Failed to remove duplicate entity {entity.entity_id}: {e}")
+    
+    if removed_count > 0:
+        _LOGGER.info(f"✅ Duplicate cleanup completed: {removed_count} duplicate entities removed")
+        return True
+    else:
+        _LOGGER.info("ℹ️ No duplicate entities found")
+        return False
